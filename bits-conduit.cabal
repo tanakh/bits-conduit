@@ -7,7 +7,7 @@ license-file:        LICENSE
 author:              Hideyuki Tanaka
 maintainer:          Hideyuki Tanaka <tanaka.hideyuki@gmail.com>
 copyright:           (c) 2012, Hideyuki Tanaka
-category:            Data
+category:            Data, Conduit
 build-type:          Simple
 cabal-version:       >=1.8
 
