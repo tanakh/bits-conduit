@@ -15,6 +15,23 @@ build-type:          Simple
 cabal-version:       >=1.8
 
 library
-  -- exposed-modules:     
+  exposed-modules:     Data.Conduit.Bits
   -- other-modules:       
-  build-depends:       base ==4.5.*
+  build-depends:       base       ==4.5.*
+                     , mtl        >=2.1
+                     , bytestring >=0.9.2
+                     , conduit    >=0.4.2
+
+test-suite bits-conduit-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      dist
+  main-is:             ../test.hs
+
+  build-depends:       base
+                     , mtl
+                     , bytestring
+                     , conduit
+
+                     , hspec
+                     , HUnit
+                     , bits-conduit
