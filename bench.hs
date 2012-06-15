@@ -33,13 +33,13 @@ main = do
   rbs <- S.pack <$> replicateM bsize randomIO
 
   defaultMain
-    [ bgroup "encode"
+    [ bgroup ("encode/" ++ show size)
       [ bench "0s" $ whnfIO $ encode False size
       , bench "1s" $ whnfIO $ encode True  size
       , bench "Rs" $ whnfIO $ encodes rb
       ]
 
-    , bgroup "decode"
+    , bgroup ("decode/" ++ show size)
       [ bench "0s" $ whnfIO $ decode 0x00 bsize
       , bench "1s" $ whnfIO $ decode 0xFF bsize
       , bench "Rs" $ whnfIO $ decodes rbs
