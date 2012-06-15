@@ -36,3 +36,16 @@ test-suite bits-conduit-test
                      , hspec
                      , HUnit
                      , bits-conduit
+
+benchmark bits-conduit-bench
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      dist
+  main-is:             ../bench.hs
+
+  build-depends:       base
+                     , bytestring
+                     , conduit
+                     , random
+
+                     , criterion >=0.6
+                     , bits-conduit
