@@ -1,5 +1,5 @@
 name:                bits-conduit
-version:             0.1.0.0
+version:             0.2.0.0
 synopsis:            Bitstream support for Conduit
 description:         Bitstream support for Conduit
 license:             BSD3
