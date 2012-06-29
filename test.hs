@@ -16,7 +16,7 @@ import Test.HUnit
 import Data.Conduit.Bits
 
 main :: IO ()
-main = hspecX $ do
+main = hspec $ do
   describe "decoder" $ do
     it "decodes empty sequence" $ do
       a <- yield S.empty =$= decodeBits $$ CL.consume

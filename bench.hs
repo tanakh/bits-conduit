@@ -17,13 +17,13 @@ encodes :: [Bool] -> IO ()
 encodes bs =
   forM_ bs yield =$= encodeBits $$ CL.sinkNull
 
-decode :: Word8 -> Int -> IO ()
+decode :: Word8 -> Int -> IO Int
 decode b8 n =
-  yield (S.replicate n b8) =$= decodeBits $$ CL.sinkNull
+  yield (S.replicate n b8) =$= decodeBits $$ CL.fold (\a _ -> a + 1) 0
 
-decodes :: S.ByteString  -> IO ()
+decodes :: S.ByteString  -> IO Int
 decodes bs =
-  yield bs =$= decodeBits $$ CL.sinkNull
+  yield bs =$= decodeBits $$ CL.fold (\a _ -> a + 1) 0
 
 main :: IO ()
 main = do

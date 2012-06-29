@@ -15,13 +15,12 @@ import Data.Bits
 import qualified Data.ByteString as S
 import Data.Conduit
 import qualified Data.Conduit.Binary as CB
-import Data.Conduit.Internal
 
 -- | Bitstream decoder
-decodeBits :: Monad m => Conduit S.ByteString m Bool
+decodeBits :: Monad m => GLConduit S.ByteString m Bool
 decodeBits = go where
   go = do
-    mb <- sinkToPipe CB.head
+    mb <- CB.head
     case mb of
       Nothing ->
         return ()
@@ -30,7 +29,7 @@ decodeBits = go where
         go
 
 -- | Bitstream encoder
-encodeBits :: Monad m => Conduit Bool m S.ByteString
+encodeBits :: Monad m => GConduit Bool m S.ByteString
 encodeBits = go where
   go = do
     mb <- awaitBits 8
@@ -41,13 +40,13 @@ encodeBits = go where
         go
 
 -- | Yields specified amount of bits (LSB first)
-yieldBits :: (Bits b, Monad m) => b -> Int -> Pipe i Bool m ()
+yieldBits :: (Bits b, Monad m) => b -> Int -> GSource m Bool
 yieldBits b n =
   forM_ [0..n-1] $ \i -> yield $ testBit b i
 {-# INLINEABLE yieldBits #-}
 
 -- | await specified amount of bits (LSB first)
-awaitBits :: (Bits b, Monad m) => Int -> Pipe Bool o m (Maybe b)
+awaitBits :: (Bits b, Monad m) => Int -> GSink Bool m (Maybe b)
 awaitBits n = go 0 0 where
   go !acc !i
     | i == n = return $ Just acc
