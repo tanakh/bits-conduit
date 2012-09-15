@@ -34,7 +34,6 @@ test-suite bits-conduit-test
                      , conduit
 
                      , hspec >= 1.3
-                     , HUnit
                      , bits-conduit
 
 benchmark bits-conduit-bench

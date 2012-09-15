@@ -10,7 +10,6 @@ import qualified Data.Conduit.List as CL
 import Data.Word
 import Test.Hspec
 import Test.Hspec.QuickCheck
-import Test.HUnit
 
 import Data.Conduit.Bits
 
@@ -19,7 +18,7 @@ main = hspec $ do
   describe "decoder" $ do
     it "decodes empty sequence" $ do
       a <- yield S.empty =$= decodeBits $$ CL.consume
-      [] @=? a
+      a `shouldBe` []
 
     prop "decodes bits" $ \bs ->
       let a = runIdentity $ yield (S.pack bs) =$= decodeBits $$ CL.consume
@@ -28,7 +27,7 @@ main = hspec $ do
   describe "encoder" $ do
     it "encodes empty sequence" $ do
       a <- CL.sourceNull =$= encodeBits $$ CB.take maxBound
-      L.empty @=? a
+      a `shouldBe` L.empty
 
     prop "encodes bits" $ \bs ->
       let a = runIdentity $ CL.sourceList bs =$= encodeBits $$ CB.take maxBound
