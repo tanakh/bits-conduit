@@ -8,9 +8,8 @@ import Data.Conduit
 import qualified Data.Conduit.Binary as CB
 import qualified Data.Conduit.List as CL
 import Data.Word
-import Test.Hspec.HUnit ()
+import Test.Hspec
 import Test.Hspec.QuickCheck
-import Test.Hspec.Monadic
 import Test.HUnit
 
 import Data.Conduit.Bits
