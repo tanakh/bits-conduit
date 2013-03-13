@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns #-}
+{-# LANGUAGE BangPatterns, NoMonomorphismRestriction #-}
 
 module Data.Conduit.Bits (
   -- * Conduits
@@ -17,7 +17,7 @@ import Data.Conduit
 import qualified Data.Conduit.Binary as CB
 
 -- | Bitstream decoder
-decodeBits :: Monad m => GLConduit S.ByteString m Bool
+decodeBits :: Monad m => Conduit S.ByteString m Bool
 decodeBits = go where
   go = do
     mb <- CB.head
@@ -29,10 +29,11 @@ decodeBits = go where
         go
 
 -- | Bitstream encoder
-encodeBits :: Monad m => GConduit Bool m S.ByteString
+encodeBits :: Monad m => Conduit Bool m S.ByteString
 encodeBits = go where
   go = do
     mb <- awaitBits 8
+        
     case mb of
       Nothing -> return ()
       Just b8 -> do
@@ -40,13 +41,13 @@ encodeBits = go where
         go
 
 -- | Yields specified amount of bits (LSB first)
-yieldBits :: (Bits b, Monad m) => b -> Int -> GSource m Bool
+yieldBits :: (Bits b, Monad m) => b -> Int -> Producer m Bool
 yieldBits b n =
   forM_ [0..n-1] $ \i -> yield $ testBit b i
 {-# INLINEABLE yieldBits #-}
 
 -- | await specified amount of bits (LSB first)
-awaitBits :: (Bits b, Monad m) => Int -> GSink Bool m (Maybe b)
+awaitBits :: (Bits b, Monad m) => Int -> Consumer Bool m (Maybe b)
 awaitBits n = go 0 0 where
   go !acc !i
     | i == n = return $ Just acc
